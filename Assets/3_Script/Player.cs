@@ -1,24 +1,21 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 
-public class PlayerScript : MonoBehaviour
+public class Player : MonoBehaviour
 {
-	
 	// Player's basic properties
 	
-	public float _speed; // player's move speed
-
-	public float _hp; // player's hp
-	public TextMesh _HpVal; // player's HP value text
-	public GameObject _hpBar;  // player's HP bar img
-	
-    public Animator _rabbit; // Animator for Player's animation
+	public float _speed; 
+	public float _hp; 
+	public TextMesh _HpVal; 
+	public GameObject _hpBar; 
+    public Animator _rabbit; 
 	
 	// For Game Result
 	public bool _gameWin; // Check bool for win
     public bool _playerLive = true; // bool for player's live
 	public GameObject _uiResult; // Result UI obejct
-	public GUIText _resultText; // Result UI's Text for win or lose
+	public Text _resultText; // Result UI's Text for win or lose
 	
 	public BoxCollider _attackChkCol; // Boxcollider for on/off when player attack 
 	
@@ -31,11 +28,10 @@ public class PlayerScript : MonoBehaviour
     private bool _attackChkbool;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+	{
 		//atakState = _rabbit.StringToHash("0_idle"); 
-		
-		if( audio != null) audio.Play();
+		if(GetComponent<AudioSource>() != null) GetComponent<AudioSource>().Play();
         if(_rabbit != null) 
 		{
 			_rabbit.speed = 2.0f;
@@ -49,7 +45,7 @@ public class PlayerScript : MonoBehaviour
 
         if(_uiResult!=null)
         {
-            _resultText = _uiResult.transform.FindChild("3_Result_Text").gameObject.GetComponent<GUIText>();
+            _resultText = _uiResult.transform.Find("3_Result_Text").gameObject.GetComponent<Text>();
         }
 			
 	}
@@ -58,8 +54,6 @@ public class PlayerScript : MonoBehaviour
 	void Update () {
 		if(_playerLive)
 		{
-			
-			
 	        if ((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0))
 	        {
 	            float _verticalPos = Input.GetAxis("Vertical") * _speed * Time.deltaTime;
@@ -78,7 +72,6 @@ public class PlayerScript : MonoBehaviour
 			{
                 if (Input.GetButtonDown("Fire1") && !_rabbit.GetCurrentAnimatorStateInfo(0).IsName("1_attack"))
                 {
-                    
                     _rabbit.SetBool("attackChk", true);
                     if (_attackChkCol != null)
                     {
@@ -86,7 +79,6 @@ public class PlayerScript : MonoBehaviour
                     }
                     _attackChkbool = true;
                 }
-
                 else
                 {
                     if (_attackChkCol != null) _attackChkCol.enabled = false;
@@ -99,33 +91,28 @@ public class PlayerScript : MonoBehaviour
                         if (_rabbit.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.0f) _rabbit.SetBool("damageChk", false);
                     }
                 }
-                
 		    }
         }
-		
-
 	}
 	
 	void Damaged(float _dam)
 	{
-
-
 		_hp -= _dam;
         if(!_rabbit.GetCurrentAnimatorStateInfo(0).IsName("3_damage")) _rabbit.SetBool("damageChk", true);
-		if(_DamEffect!=null) Instantiate(_DamEffect,new Vector3(transform.position.x, 1.0f, transform.position.z),Quaternion.identity);
-        if(_DamText!=null) Instantiate(_DamText, new Vector3(transform.position.x, 1.2f, transform.position.z + 0.2f), Quaternion.identity);
+		if(_DamEffect != null) Instantiate(_DamEffect,new Vector3(transform.position.x, 1.0f, transform.position.z),Quaternion.identity);
+        if(_DamText != null) Instantiate(_DamText, new Vector3(transform.position.x, 1.2f, transform.position.z + 0.2f), Quaternion.identity);
         
 		if(_hp >0)
 		{
-			if(_hpBar!=null) _hpBar.transform.localScale = new Vector3 (_hp*0.01f,1,1);
-			if(_HpVal!=null) _HpVal.text = _hp.ToString();
+			if(_hpBar != null) _hpBar.transform.localScale = new Vector3 (_hp * 0.01f, 1, 1);
+			if(_HpVal != null) _HpVal.text = _hp.ToString();
 		}
 		else if(_hp <= 0)
 		{
-			if(_hpBar!=null) _hpBar.transform.localScale = new Vector3 (0,1,1);
-			_playerLive=false;
-			if(_HpVal!=null) _HpVal.text = "0";
-			_gameWin=false;
+			if(_hpBar != null) _hpBar.transform.localScale = new Vector3 (0, 1, 1);
+			_playerLive = false;
+			if(_HpVal != null) _HpVal.text = "0";
+			_gameWin = false;
 			GameOver();
 		}
 	}
@@ -151,6 +138,6 @@ public class PlayerScript : MonoBehaviour
     void Regame()
     {
         Time.timeScale = 1.0f;
-        Application.LoadLevel("1_play");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("1_play");
     }
 }

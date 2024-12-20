@@ -14,14 +14,14 @@ public class HP_Bar : MonoBehaviour {
 		
 		if(_target!=null)
 		{
-			_HpVal = transform.FindChild("3_HpVal").GetComponent<TextMesh>();
-			_name = transform.FindChild("2_Name").GetComponent<TextMesh>();
-			_HpBar = transform.FindChild("1_HpBarParent").gameObject;
+			_HpVal = transform.Find("3_HpVal").GetComponent<TextMesh>();
+			_name = transform.Find("2_Name").GetComponent<TextMesh>();
+			_HpBar = transform.Find("1_HpBarParent").gameObject;
 			
 			if(_target.tag == "player")
 			{
-				_target.GetComponent<PlayerScript>()._HpVal = _HpVal;
-				_target.GetComponent<PlayerScript>()._hpBar = _HpBar;
+				_target.GetComponent<Player>()._HpVal = _HpVal;
+				_target.GetComponent<Player>()._hpBar = _HpBar;
 				if(_name!=null)
 				{
 					_name.text = "PLAYER";

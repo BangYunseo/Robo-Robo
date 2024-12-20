@@ -1,20 +1,26 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 
 public class ButtonClicked : MonoBehaviour {
 
-    private GUITexture _thisObjBtn;
+    public Image myImage;
     public GameObject _target;
     public string _functionName = "Regame";
 
 	// Use this for initialization
 	void Start () {
-
-        _thisObjBtn = gameObject.GetComponentInChildren<GUITexture>();
-
+        if(myImage == null){
+            Debug.LogError("Image component is not assigned.");
+        }
     }
 	
-	// Update is called once per frame
+    
+	public void OnButtonClick(){
+        if(_target != null){
+            _target.SendMessage(_functionName, SendMessageOptions.DontRequireReceiver);
+        }
+    }
+    /*
     void Update()
     {
 
@@ -30,4 +36,5 @@ public class ButtonClicked : MonoBehaviour {
             }
         }
     }
+    */
 }

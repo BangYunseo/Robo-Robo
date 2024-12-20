@@ -4,12 +4,12 @@ using System.Collections;
 public class PlayerAttackScript : MonoBehaviour {
 	
 
-	public PlayerScript _PlayerSt;
+	public Player _PlayerSt;
 
 	// Use this for initialization
 	void Start () {
 		
-		_PlayerSt = GameObject.FindWithTag("player").GetComponent<PlayerScript>();
+		_PlayerSt = GameObject.FindWithTag("player").GetComponent<Player>();
 		_PlayerSt._attackChkCol = gameObject.GetComponent<BoxCollider>();
 
 		gameObject.GetComponent<BoxCollider>().enabled = false;
@@ -27,7 +27,7 @@ public class PlayerAttackScript : MonoBehaviour {
         if (other.tag == "enemy")
         {
             Vector3 _Vec = (other.transform.position - transform.position).normalized;
-            _Vec.y=0;
+            _Vec.y = 0;
             other.transform.localPosition += _Vec * 0.5f;
 			other.SendMessage("Damaged",10.0f);
         }

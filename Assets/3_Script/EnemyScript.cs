@@ -27,13 +27,13 @@ public class EnemyScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		animation[_animationName[0]].layer = 0;
-		animation[_animationName[1]].layer = 1;
-		animation[_animationName[2]].layer = 3;
-		animation[_animationName[3]].layer = 4;
-		animation.CrossFade(_animationName[0],0.1f);
-		animation[_animationName[2]].speed = 2.0f;
-		animation[_animationName[3]].speed = 2.0f;
+		GetComponent<Animation>()[_animationName[0]].layer = 0;
+		GetComponent<Animation>()[_animationName[1]].layer = 1;
+		GetComponent<Animation>()[_animationName[2]].layer = 3;
+		GetComponent<Animation>()[_animationName[3]].layer = 4;
+		GetComponent<Animation>().CrossFade(_animationName[0],0.1f);
+		GetComponent<Animation>()[_animationName[2]].speed = 2.0f;
+		GetComponent<Animation>()[_animationName[3]].speed = 2.0f;
 		_target = GameObject.FindWithTag ("player");
 		
 	
@@ -53,16 +53,16 @@ public class EnemyScript : MonoBehaviour {
 		{
 			transform.position += (_target.transform.position - transform.position).normalized * _speed * Time.deltaTime;
 			//transform.forward = (_target.transform.position - transform.position).normalized;
-			animation.CrossFade(_animationName[1],0.1f);
+			GetComponent<Animation>().CrossFade(_animationName[1],0.1f);
 			transform.LookAt(_target.transform);
 			
 			if ((_target.transform.position - transform.position).magnitude < 10.0f)
 			{
-				animation.CrossFade(_animationName[2],0.1f);
+				GetComponent<Animation>().CrossFade(_animationName[2],0.1f);
 			}
 			else	
 			{
-				animation.Stop(_animationName[2]);
+				GetComponent<Animation>().Stop(_animationName[2]);
 			}
 		}
 		
@@ -73,9 +73,9 @@ public class EnemyScript : MonoBehaviour {
 	
 	void Damaged(float _dam)
 	{
-        if (audio != null) audio.PlayOneShot(_damageSnd);
+        if (GetComponent<AudioSource>() != null) GetComponent<AudioSource>().PlayOneShot(_damageSnd);
 		_hp -= _dam;
-        animation.CrossFade(_animationName[3], 0.1f);
+        GetComponent<Animation>().CrossFade(_animationName[3], 0.1f);
         if(_DamEffect!=null) Instantiate(_DamEffect, new Vector3(transform.position.x, 2.0f, transform.position.z), Quaternion.identity);
         if(_DamText!=null) Instantiate(_DamText, new Vector3(transform.position.x, 1.2f, transform.position.z + 0.2f), Quaternion.identity);
 		if(_hp >0)
@@ -88,8 +88,8 @@ public class EnemyScript : MonoBehaviour {
 			if(_hpBar!=null) _hpBar.transform.localScale = new Vector3 (0,1,1);
 			if(_HpVal!=null) _HpVal.text = "0";
 
-            _target.GetComponent<PlayerScript>()._gameWin = true;
-            _target.GetComponent<PlayerScript>().GameOver();
+            _target.GetComponent<Player>()._gameWin = true;
+            _target.GetComponent<Player>().GameOver();
 			DestroyThis();
 		}
 

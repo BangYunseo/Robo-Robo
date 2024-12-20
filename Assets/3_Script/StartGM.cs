@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 
 public class StartGM : MonoBehaviour
 {
@@ -17,6 +17,6 @@ public class StartGM : MonoBehaviour
     void LoadScene()
     {
         Debug.Log("test");
-        Application.LoadLevel("1_play");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("1_play");
     }
 }
