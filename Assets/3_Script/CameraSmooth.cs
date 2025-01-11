@@ -11,14 +11,12 @@ public class CameraSmooth : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
         _iniPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-
         transform.position = _iniPos + _target.transform.position;
 
     }
